@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { MathJax, MathJaxContext } from 'mathjax-react';
+import MathJax from 'react-mathjax-preview';
 
 interface LatexEditorProps {
   initialValue?: string;
@@ -13,19 +13,6 @@ const LatexEditor: React.FC<LatexEditorProps> = ({
   const [latex, setLatex] = useState(initialValue);
   const [rendered, setRendered] = useState(initialValue);
   const [error, setError] = useState<string | null>(null);
-
-  // Config for MathJax
-  const config = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']],
-      displayMath: [['$$', '$$'], ['\\[', '\\]']],
-      processEscapes: true,
-      processEnvironments: true
-    },
-    options: {
-      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
-    }
-  };
 
   // Update the rendered output whenever latex changes
   useEffect(() => {
@@ -64,9 +51,7 @@ const LatexEditor: React.FC<LatexEditorProps> = ({
             {error ? (
               <div className="text-red-500">{error}</div>
             ) : (
-              <MathJaxContext config={config}>
-                <MathJax>{rendered}</MathJax>
-              </MathJaxContext>
+              <MathJax math={rendered} />
             )}
           </div>
         </div>

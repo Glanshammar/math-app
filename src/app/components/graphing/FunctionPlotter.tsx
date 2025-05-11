@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Plotly from 'plotly.js';
+import Plotly, { ScatterData, Layout } from 'plotly.js';
 import * as mathjs from 'mathjs';
 
 interface FunctionPlotterProps {
@@ -65,7 +65,7 @@ const FunctionPlotter: React.FC<FunctionPlotterProps> = ({
       }
       
       // Create the plot data
-      const trace = {
+      const trace: Partial<ScatterData> = {
         x: xValues,
         y: yValues,
         mode: 'lines',
@@ -74,17 +74,17 @@ const FunctionPlotter: React.FC<FunctionPlotterProps> = ({
       };
       
       // Layout configuration
-      const layout = {
-        title: `y = ${functionExpression}`,
+      const layout: Partial<Layout> = {
+        title: { text: `y = ${functionExpression}` },
         xaxis: {
-          title: 'x',
+          title: { text: 'x' },
           range: xRange,
           zeroline: true,
           zerolinecolor: '#000000',
           gridcolor: '#EEEEEE'
         },
         yaxis: {
-          title: 'y',
+          title: { text: 'y' },
           range: yRange,
           zeroline: true,
           zerolinecolor: '#000000',
@@ -148,7 +148,18 @@ const FunctionPlotter: React.FC<FunctionPlotterProps> = ({
                   Plotly.purge(plotContainer);
                   const { xValues, yValues } = generatePoints(functionExpression, xRange[0], xRange[1]);
                   if (xValues.length > 0 && !yValues.every(y => y === null)) {
-                    Plotly.newPlot(plotContainer, [{ x: xValues, y: yValues, mode: 'lines', type: 'scatter' }]);
+                    const trace: Partial<ScatterData> = {
+                      x: xValues, 
+                      y: yValues, 
+                      mode: 'lines', 
+                      type: 'scatter'
+                    };
+                    const layout: Partial<Layout> = {
+                      title: { text: `y = ${functionExpression}` },
+                      xaxis: { title: { text: 'x' }, range: xRange },
+                      yaxis: { title: { text: 'y' }, range: yRange }
+                    };
+                    Plotly.newPlot(plotContainer, [trace], layout);
                   }
                 }
               }}
