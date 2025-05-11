@@ -52,6 +52,16 @@ yarn dev
 
 4. Open your browser and navigate to `http://localhost:3000`
 
+### Settings
+
+The VS Code workspace settings are configured for optimal Next.js and TypeScript development, including:
+
+- TypeScript and ESLint integration
+- Tailwind CSS IntelliSense
+- Automatic formatting on save with Prettier
+- File nesting for related files
+- Custom file exclusions for better performance
+
 ## Project Structure
 
 ```
